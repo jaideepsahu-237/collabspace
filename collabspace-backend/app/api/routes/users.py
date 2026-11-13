@@ -53,7 +53,7 @@ async def register_user(
     new_user = User(
         name = user_data.name,
         email = user_data.email,
-        password_hash = hash_password,
+        password_hash = hashed_password,
         tenant_id = user_data.tenant_id
     )
 
