@@ -13,3 +13,11 @@ class UserResponse(BaseModel):
     tenant_id : int
 
     model_config = ConfigDict(from_attributes=True)
+
+class UserLogin(BaseModel):
+    email : EmailStr
+    password : str
+
+class Tokenresponse(BaseModel):
+    access_token : str
+    token_type : str = "bearer"
