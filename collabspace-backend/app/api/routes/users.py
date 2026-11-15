@@ -6,10 +6,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
 from app.models.user import User
 from app.models.tenant import Tenant
-from app.schemas.user import UserCreate, UserResponse
-from app.core.security import hash_password
+from app.schemas.user import UserCreate, UserResponse, UserLogin, Tokenresponse
+from app.core.security import hash_password, verify_password, create_access_token
 
-from app.core.exceptions import TenantNotFoundException, UserAlreadyExistsException
+from app.core.exceptions import TenantNotFoundException, UserAlreadyExistsException, InvalidCredentialsException
 
 router = APIRouter(
     prefix="/api/users",
@@ -69,3 +69,42 @@ async def register_user(
 
     return new_user
 
+@router.post(
+        "/login",
+        response_model=Tokenresponse
+)
+async def login_user(
+        user_data : UserLogin,
+        db : AsyncSession = Depends(get_db)
+):
+    # Find all user by email
+
+    result = await db.execute(
+        select(User).where(User.email==user_data.email)
+    )
+
+    user = result.scalar_one_or_none()
+
+    print("Password hash:", user.password_hash if user else None)
+    print("Hash type:", type(user.password_hash) if user else None)
+
+    #  Check user and password
+    if not user or not verify_password(
+        user_data.password,
+        user.password_hash
+    ):
+        raise InvalidCredentialsException()
+
+    # Generate JWT
+    access_token = create_access_token(
+        data={
+            "sub" : str(user.id),
+            "tenant_id" : user.tenant_id
+        }
+    )
+
+    # Return Token
+    return{
+        "access_token" : access_token,
+        "token_type" : "bearer"
+    }

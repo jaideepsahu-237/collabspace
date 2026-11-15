@@ -19,3 +19,8 @@ class UserAlreadyExistsException(AppException):
             message="Email already registered",
             status_code=409
         )
+
+class InvalidCredentialsException(AppException):
+
+    def __init__(self):
+        super().__init__(message="Invalid email or password", status_code=401)
