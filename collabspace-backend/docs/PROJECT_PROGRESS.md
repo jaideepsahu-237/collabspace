@@ -197,15 +197,15 @@ Implemented:
 
 ### Phase 1: Authentication
 
-- [ ] Review and verify registration implementation.
-- [ ] Implement JWT token creation.
-- [ ] Configure JWT secret key and expiration settings.
-- [ ] Implement `POST /api/users/login`.
-- [ ] Verify user credentials using `verify_password()`.
-- [ ] Return access token after successful login.
-- [ ] Create reusable `get_current_user()` dependency.
-- [ ] Protect private endpoints using JWT authentication.
-- [ ] Ensure tenant identity comes from the authenticated user.
+- [x] Review and verify registration implementation.
+- [x] Implement JWT token creation.
+- [x] Configure JWT secret key and expiration settings.
+- [x] Implement `POST /api/users/login`.
+- [x] Verify user credentials using `verify_password()`.
+- [x] Return access token after successful login.
+- [x] Create reusable `get_current_user()` dependency.
+- [x] Protect private endpoints using JWT authentication.
+- [x] Ensure tenant identity comes from the authenticated user.
 
 ### Phase 2: Document Management
 

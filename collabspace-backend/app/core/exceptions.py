@@ -24,3 +24,8 @@ class InvalidCredentialsException(AppException):
 
     def __init__(self):
         super().__init__(message="Invalid email or password", status_code=401)
+
+class InvalidTokenException(AppException):
+
+    def __init__(self):
+        super().__init__(message="Could not validate credentials", status_code=401)
